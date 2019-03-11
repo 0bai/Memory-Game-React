@@ -3,9 +3,9 @@ import shuffle from 'shuffle-array';
 import './App.css';
 import GameGrid from './GameGrid';
 
-const Nav = () => (
+const Nav = ({onNewGame}) => (
 	<div className={'nav'}>
-		<div className={'newGame'}>New Game</div>
+		<div className={'newGame'} onClick={onNewGame}>New Game</div>
 	</div>
 );
 const CardState = {'HIDING': 0, 'SHOWING': 1, 'MATCHING': 2};
@@ -13,8 +13,13 @@ const CardState = {'HIDING': 0, 'SHOWING': 1, 'MATCHING': 2};
 class App extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {cards: this.getCards()};
+		this.handleNewGame = this.handleNewGame.bind(this);
+	}
+	
+	getCards() {
 		let cards = [
-			{id: 0, cardState: CardState.SHOWING, backgroundColor: 'red'},
+			{id: 0, cardState: CardState.HIDING, backgroundColor: 'red'},
 			{id: 1, cardState: CardState.HIDING, backgroundColor: 'red'},
 			{id: 2, cardState: CardState.HIDING, backgroundColor: 'navy'},
 			{id: 3, cardState: CardState.HIDING, backgroundColor: 'navy'},
@@ -31,8 +36,11 @@ class App extends Component {
 			{id: 14, cardState: CardState.HIDING, backgroundColor: 'lightskyblue'},
 			{id: 15, cardState: CardState.HIDING, backgroundColor: 'lightskyblue'}
 		];
-		cards = shuffle(cards);
-		this.state = {cards, clicked: false};
+		return cards = shuffle(cards);
+	}
+	
+	handleNewGame() {
+		this.setState({cards: this.getCards()});
 	}
 	
 	
@@ -40,7 +48,7 @@ class App extends Component {
 		return (
 			<div className="App">
 				<header className="App-header">
-					<Nav/>
+					<Nav onNewGame={this.handleNewGame}/>
 				</header>
 				<GameGrid cards={this.state.cards}/>
 			</div>

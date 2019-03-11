@@ -12,7 +12,7 @@ class Card extends Component {
 			border: "10px solid grey",
 			margin: "2px auto"
 		};
-		return ( <div className='card' style={style}></div> );
+		return ( <div key={id} id={id} className='card' style={style} onClick={this.props.onClick}></div> );
 	}
 }
 
