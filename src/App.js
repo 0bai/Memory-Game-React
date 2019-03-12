@@ -4,8 +4,8 @@ import './App.css';
 import GameGrid from './GameGrid';
 
 const Nav = ({onNewGame}) => (
-	<div className={'nav'}>
-		<div className={'newGame'} onClick={onNewGame}>New Game</div>
+	<div className={'nav'} onClick={onNewGame}>
+		<div className={'newGame'}>New Game</div>
 	</div>
 );
 const CardState = {'HIDING': 0, 'SHOWING': 1, 'MATCHING': 2};
@@ -40,8 +40,13 @@ class App extends Component {
 	}
 	
 	handleNewGame() {
-		this.setState({cards: this.getCards()});
+		console.log('new Game');
+		let cards = this.state.cards.map(card => ( {...card, cardState: CardState.HIDING} ));
+		cards = shuffle(cards);
+		this.setState({cards});
+		console.log(cards);
 	}
+
 	
 	
 	render() {
@@ -50,10 +55,11 @@ class App extends Component {
 				<header className="App-header">
 					<Nav onNewGame={this.handleNewGame}/>
 				</header>
-				<GameGrid cards={this.state.cards}/>
+				<GameGrid cards={this.state.cards} STATE={CardState}/>
 			</div>
 		);
 	}
 }
 
 export default App;
+
